@@ -14,6 +14,10 @@ const serverEnvSchema = z.object({
   DATABASE_URL: z.string().min(1),
   BETTER_AUTH_SECRET: z.string().min(1),
   APP_URL: z.url(),
+  OPENROUTER_API_KEY: z.string().min(1),
+  OPENAI_API_KEY: z.string().min(1),
+  PYTHON_SERVICE_URL: z.string().default('http://localhost:3002'),
+  FREE_LEAD_LIMIT: z.coerce.number().default(50),
 })
 
 const parsed = serverEnvSchema.safeParse(process.env)
@@ -30,4 +34,8 @@ export const config = {
   DATABASE_URL: env.DATABASE_URL,
   BETTER_AUTH_SECRET: env.BETTER_AUTH_SECRET,
   APP_URL: env.APP_URL,
+  OPENROUTER_API_KEY: env.OPENROUTER_API_KEY,
+  OPENAI_API_KEY: env.OPENAI_API_KEY,
+  PYTHON_SERVICE_URL: env.PYTHON_SERVICE_URL,
+  FREE_LEAD_LIMIT: env.FREE_LEAD_LIMIT,
 }

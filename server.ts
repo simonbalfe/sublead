@@ -1,6 +1,6 @@
 import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
-import { app as api, config } from '@repo/api'
+import { app as api, config, startScraper } from '@repo/api'
 import { Hono } from 'hono'
 
 const server = new Hono()
@@ -16,3 +16,4 @@ const port = Number(process.env.PORT) || 3000
 console.log(`Server running on port ${port} (${config.NODE_ENV})`)
 
 serve({ fetch: server.fetch, port })
+startScraper()

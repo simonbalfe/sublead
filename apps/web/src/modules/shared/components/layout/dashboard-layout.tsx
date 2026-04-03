@@ -3,15 +3,20 @@ import { authClient } from '@shared/lib/auth-client'
 import { Button } from '@ui/components/button'
 import { cn } from '@ui/lib/utils'
 import { Link, Outlet, useLocation } from '@tanstack/react-router'
-import { Home, LogOut, Settings } from 'lucide-react'
+import { Home, LogOut, Package, Settings, Target } from 'lucide-react'
 
 const navItems = [
   { title: 'Dashboard', to: '/dashboard' as const, icon: Home },
+  { title: 'Products', to: '/products' as const, icon: Package },
+  { title: 'Leads', to: '/leads' as const, icon: Target },
   { title: 'Settings', to: '/settings' as const, icon: Settings },
 ]
 
 const PAGE_TITLES: Record<string, string> = {
   '/dashboard': 'Dashboard',
+  '/products': 'Products',
+  '/products/new': 'New Product',
+  '/leads': 'Leads',
   '/settings': 'Settings',
 }
 

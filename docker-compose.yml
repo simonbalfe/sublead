@@ -27,6 +27,10 @@ services:
       DATABASE_URL: postgresql://sublead:${POSTGRES_PASSWORD}@postgres:5432/sublead
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
       APP_URL: ${APP_URL}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      PYTHON_SERVICE_URL: http://python:3002
+      FREE_LEAD_LIMIT: ${FREE_LEAD_LIMIT:-50}
 
   python:
     build: ./apps/python

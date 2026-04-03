@@ -6,8 +6,11 @@ import { auth } from './auth'
 import { config } from './config'
 import { authRoutes } from './routes/auth'
 import { serverInfoRoutes } from './routes/server-info'
-import { todoRoutes } from './routes/todos'
 import { userRoutes } from './routes/users'
+import { icpRoutes } from './routes/icps'
+import { leadRoutes } from './routes/leads'
+import { aiRoutes } from './routes/ai'
+import { scraperRoutes } from './routes/scraper'
 
 interface OpenAPISchema {
   paths?: Record<string, unknown>
@@ -32,15 +35,18 @@ const app = new Hono()
     console.log(`[HONO] ${c.req.method} ${c.req.path} -> ${c.res.status}`)
   })
   .route('/', authRoutes)
-  .route('/', todoRoutes)
   .route('/', userRoutes)
   .route('/', serverInfoRoutes)
+  .route('/', icpRoutes)
+  .route('/', leadRoutes)
+  .route('/', aiRoutes)
+  .route('/', scraperRoutes)
 
 app.get('/app-openapi', async (c) => {
   const handler = openAPIRouteHandler(app, {
     documentation: {
       info: {
-        title: 'API',
+        title: 'Sublead API',
         version: '1.0.0',
       },
       servers: [
