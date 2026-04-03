@@ -1,0 +1,1 @@
+export { deleteUserById } from './users'

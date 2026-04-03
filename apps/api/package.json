@@ -1,0 +1,32 @@
+{
+  "name": "@repo/api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/dev.ts",
+    "lint": "biome check .",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.3",
+    "@hono/standard-validator": "^0.2.2",
+    "@scalar/hono-api-reference": "^0.9.44",
+    "better-auth": "^1.4.18",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.7",
+    "hono": "^4.7.0",
+    "hono-openapi": "^1.2.0",
+    "postgres": "^3.4.5",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.8",
+    "tsx": "^4.21.0"
+  }
+}
