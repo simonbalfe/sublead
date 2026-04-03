@@ -1,0 +1,3 @@
+- No comments
+- Use `pnpm` install
+- Never edit `ui` compoennts these are shadcn

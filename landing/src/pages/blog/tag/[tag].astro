@@ -1,0 +1,108 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '../../../layouts/PageLayout.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const tags = [...new Set(posts.flatMap(post => post.data.tags))];
+
+	return tags.map(tag => ({
+		params: { tag },
+		props: {
+			tag,
+			posts: posts.filter(post => post.data.tags.includes(tag))
+		}
+	}));
+}
+
+interface Props {
+	tag: string;
+	posts: CollectionEntry<'blog'>[];
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<Layout metadata={{ title: `Posts tagged with "${tag}"`, description: `All blog posts tagged with ${tag}` }}>
+	<div class="flex-1">
+		<section class="py-12 md:py-16 bg-muted/30">
+			<div class="container">
+				<div class="max-w-3xl mx-auto text-center">
+					<h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+						Posts tagged with <span class="text-primary">{tag}</span>
+					</h1>
+					<p class="text-lg text-muted-foreground">
+						{posts.length} post{posts.length !== 1 ? 's' : ''} with this tag
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-12 md:py-16">
+			<div class="container">
+				<div class="max-w-7xl mx-auto">
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{posts.map((post) => (
+							<article class="group bg-card rounded-2xl border border-border overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300">
+								<div class="p-8 flex-1 flex flex-col">
+									<div class="mb-4">
+										<time class="text-sm text-muted-foreground font-medium">
+											<FormattedDate date={post.data.pubDate} />
+										</time>
+									</div>
+									<h2 class="text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+										<a href={`/blog/${post.id}/`} class="no-underline">
+											{post.data.title}
+										</a>
+									</h2>
+									{post.data.description && (
+										<p class="text-muted-foreground mb-6 line-clamp-3 leading-relaxed">
+											{post.data.description}
+										</p>
+									)}
+									<div class="flex flex-wrap gap-2 mb-6 mt-auto">
+										{post.data.tags && post.data.tags.slice(0, 2).map(t => (
+											<a
+												href={`/blog/tag/${t}`}
+												class="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-md hover:bg-primary/20 transition-colors no-underline"
+											>
+												{t}
+											</a>
+										))}
+									</div>
+								</div>
+								{post.data.heroImage && (
+									<a href={`/blog/${post.id}/`} class="block mx-8 mb-4 overflow-hidden rounded-xl">
+										<div class="aspect-[16/9] overflow-hidden">
+											<Image
+												width={400}
+												height={225}
+												src={post.data.heroImage}
+												alt={post.data.title}
+												class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+											/>
+										</div>
+									</a>
+								)}
+								<div class="px-8 pb-8 pt-2">
+									<a
+										href={`/blog/${post.id}/`}
+										class="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm no-underline group/link"
+									>
+										Read more
+										<svg class="ml-1 w-3 h-3 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+										</svg>
+									</a>
+								</div>
+							</article>
+						))}
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</Layout>
+

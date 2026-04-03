@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import type { MetaData } from "../types";
+import { CTA } from "../consts";
+
+export interface Props {
+  metadata?: MetaData;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+  };
+}
+
+const { metadata: metadataProp, frontmatter } = Astro.props;
+
+const metadata = metadataProp || {
+  title: frontmatter?.title,
+  description: frontmatter?.description,
+};
+---
+
+<Layout metadata={metadata}>
+  <slot name="header">
+    <Header />
+  </slot>
+  <main>
+    <slot />
+  </main>
+  
+  <section class="container bg-background pt-4 md:pt-8 pb-0 relative z-20">
+    <div class="max-w-4xl mx-auto border border-border rounded-3xl p-12 md:p-16 text-center bg-background shadow-sm -mb-20 md:-mb-24 relative z-10">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-6">{CTA.title}</h2>
+      <p class="text-lg text-muted-foreground mb-8">{CTA.subtitle}</p>
+      
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <a href={CTA.button.href || import.meta.env.PUBLIC_APP_URL} class="inline-flex items-center justify-center whitespace-nowrap rounded-xl text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 py-3 w-full sm:w-auto">
+          {CTA.button.label}
+        </a>
+        <p class="text-sm text-muted-foreground">{CTA.note}</p>
+      </div>
+    </div>
+  </section>
+
+  <slot name="footer">
+    <Footer />
+  </slot>
+</Layout>
